@@ -1,65 +1,112 @@
 import styles from '../styles/index.module.scss';
-import Input from "../components/ui/Input/Input";
 
+import Form from '../components/Form/Form';
+import { useState } from 'react';
+
+const buttons = [
+   { key: 0, name: 'Login', active: true },
+   { key: 1, name: 'Register', active: false }
+];
+
+const authFields = [
+   {
+      id: 'name',
+      label: 'User name',
+      placeholder: 'Enter your User name',
+      type: 'text'
+   },
+   {
+      id: 'password',
+      label: 'Password',
+      placeholder: 'Enter your Password',
+      type: 'password'
+   }
+];
+
+const registerFields = [
+   {
+      id: 'name',
+      label: 'User name',
+      placeholder: 'Enter your User name',
+      type: 'text'
+   },
+   {
+      id: 'email',
+      label: 'Email Address',
+      placeholder: 'Enter your Email Address',
+      type: 'email'
+   },
+   {
+      id: 'password',
+      label: 'Password',
+      placeholder: 'Enter your Password',
+      type: 'password'
+   },
+];
 
 export default function Index() {
+
+   const [form, setForm] = useState('Login');
+   const [fields, setFields] = useState(authFields);
+   const [toggleBtn, setToggleBtn] = useState(buttons);
+
+   const toggleBtnHAndler = (target, active) => {
+      target.classList.add(active);
+      let formType = target.innerHTML;
+      setForm(formType);
+
+      if (formType == 'Register') {
+         setFields(registerFields);
+      } else {
+         setFields(authFields);
+      }
+
+      setToggleBtn((prevButtons) => {
+         return prevButtons.map(btn => {
+            btn.active = false;
+            if (formType == btn.name) {
+               btn.active = true;
+            }
+
+            return btn;
+         });
+      });
+
+
+   };
+
    return (
       <>
-         <header className="header">
-            header
-         </header>
          <main className="main" >
-            <h1>
-               Главная страница
-            </h1>
-            <div className="authorization">
-               <div className="authorization__body">
-                  <div className="authorization__left">
-                     
-                  </div>
-                  <form className="authorization__right auth-form">
-                     <div className="auth-form__body">
-                        <h2 className="auth-form__title">
-                           Welcome to lorem..!
-                        </h2>
-                        <div className="auth-form__toggle-btns">
-                           <button className="auth-form__btn active">Login</button>
-                           <button className="auth-form__btn">Register</button>
+            <section className={styles['main-page']}>
+               <div className="container">
+                  <div className={styles['main-page__body']}>
+                     <div className={styles['main-page__left']}>
+                        <div className={styles['main-page__fone']}>
+                           <img src="/static/images/cat.jpg" alt="cat" />
                         </div>
-                        <div className="auth-form__descr">
-                           Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                        </div>
-                        <div className="auth-form__fields">
-                           <Input 
-                              id="name" 
-                              label="User name" 
-                              placeholder="Enter your User name" 
-                              type="text"
-                           />
-                           <Input 
-                              id="password" 
-                              label="Password" 
-                              placeholder="Enter your Password" 
-                              type="password"
-                           />
-                           <Input 
-                              id="email" 
-                              label="Email Address" 
-                              placeholder="Enter your Email Address" 
-                              type="email"
-                           />
-                        </div>
-                        <div className="auth-form__submit">
-                           <button className="auth-form__subit-btn">Register</button>
+                        <div className={styles['main-page__content']}>
+                           <div className={styles['main-page__title']}>
+                              <h1>Lorem Ipsum is simply</h1>
+                           </div>
+                           <div className={styles['main-page__descr']}>Lorem Ipsum is simply</div>
                         </div>
                      </div>
-                  </form>
+                     <div className={styles['main-page__rigth']}>
+                        <Form
+                           buttons={toggleBtn}
+                           active={true}
+                           title="Welcome to lorem..!"
+                           descr="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+                           type={form}
+                           fields={fields}
+                           toggleBtnHAndler={toggleBtnHAndler}
+                        />
+                     </div>
+                  </div>
                </div>
-            </div>
+            </section>
          </main>
-         <footer className="footer">
-            footer
-         </footer>
       </>
    );
 };

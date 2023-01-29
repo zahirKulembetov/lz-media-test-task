@@ -1,0 +1,27 @@
+.toggle-btn {
+   background: #f8eddd;
+   border-radius: 33px;
+
+   padding: 10px 13px;
+
+   display: inline-flex;
+
+   position: relative;
+
+   &__field {
+      border-radius: 33px;
+
+      padding: 8px 50px;
+      border: none;
+
+      color: var(--main-color);
+      background: transparent;
+
+      cursor: pointer;
+
+      &.active {
+         color: #fff;
+         background: var(--main-color);
+      }
+   }
+}
